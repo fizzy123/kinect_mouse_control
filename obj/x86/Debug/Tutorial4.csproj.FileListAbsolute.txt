@@ -1,0 +1,30 @@
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Tutorial1.exe.config
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Tutorial1.exe
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Tutorial1.pdb
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Microsoft.Expression.Drawing.dll
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial4.csprojResolveAssemblyReference.cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\MainWindow.baml
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\MainWindow.g.cs
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\App.g.cs
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1_MarkupCompile.cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.g.resources
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.Properties.Resources.resources
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial4.csproj.GenerateResource.Cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.exe
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.pdb
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\bin\Debug\Tutorial1.exe.config
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial1.exe
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial1.pdb
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\bin\Debug\Tutorial1.exe
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\bin\Debug\Tutorial1.pdb
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\MainWindow.baml
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\MainWindow.g.cs
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\App.g.cs
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial1_MarkupCompile.cache
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial1.g.resources
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial1.Properties.Resources.resources
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial4.csproj.GenerateResource.Cache
+C:\Users\NSC\Documents\Visual Studio 2013\Projects\Tutorial4\obj\x86\Debug\Tutorial4.csprojResolveAssemblyReference.cache

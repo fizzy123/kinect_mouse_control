@@ -1,0 +1,33 @@
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\bin\Debug\Tutorial1.exe.config
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\bin\Debug\Tutorial1.exe
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\bin\Debug\Tutorial1.pdb
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial3.csprojResolveAssemblyReference.cache
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\MainWindow.baml
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\MainWindow.g.cs
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\App.g.cs
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial1_MarkupCompile.cache
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial1.g.resources
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial1.Properties.Resources.resources
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial3.csproj.GenerateResource.Cache
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial1.exe
+C:\Users\MarkAlicz\Desktop\KinectSample\Tutorial3\obj\x86\Debug\Tutorial1.pdb
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\bin\Debug\Tutorial1.exe.config
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial1.exe
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial1.pdb
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\bin\Debug\Tutorial1.exe
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\bin\Debug\Tutorial1.pdb
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\bin\Debug\Microsoft.Expression.Drawing.dll
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial3.csprojResolveAssemblyReference.cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\MainWindow.baml
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\MainWindow.g.cs
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\App.g.cs
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial1_MarkupCompile.cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial1.g.resources
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial1.Properties.Resources.resources
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial3\obj\x86\Debug\Tutorial3.csproj.GenerateResource.Cache
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\bin\Debug\Tutorial1.exe.config
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.exe
+D:\Coding\CodingForKinect.Com\Kinect Tutorials\Tutorial4\obj\x86\Debug\Tutorial1.pdb
