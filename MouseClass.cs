@@ -66,49 +66,35 @@ namespace Tutorial1
             }
         }
 
-        Double[] old_point_coordinates;
-
+        Double[] pointVelocity = new Double[2] {0,0}
+;
         public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked)
         {
+
             Joint _WorkingJoint;
             Point mouse_pos;
             Double dx, dy;
             GetCursorPos(out mouse_pos);
             _WorkingJoint = Data.Joints[JointType.HandRight];
-            //Console.WriteLine(depthPixels[_WorkingJoint.Position.X,_WorkingJoint.Position.Y);
 
-            Double[] point_coordinates = ExponentialWeightedAvg(_WorkingJoint);
-            if (old_point_coordinates != null)
+            _WorkingJoint = _WorkingJoint.ScaleTo(15360, 8640); // Scale up because we don't want to have to move our hand across the full range of the kinect in order to go from one side of the screen to the other
+
+            Double[] pointCoordinates = ExponentialWeightedAvg(_WorkingJoint); // Smoothing function
+
+            //Calculate difference between where mouse is and where hand is
+            dx = (pointCoordinates[0] - (15360 / 2 - 1920 / 2) - 600 - mouse_pos.X); 
+            dy = (pointCoordinates[1] - (8640 / 2 - 1080 / 2) - mouse_pos.Y);
+
+            //Set Velocity
+            pointVelocity[0] = dx / 10;
+            pointVelocity[1] = dy / 10;
+
+            //Uncomment to view process of moving mouse
+            //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", mouse_pos.X, mouse_pos.Y);
+            if (!clicked)
             {
-                dx = point_coordinates[0] - old_point_coordinates[0];
-                dy = point_coordinates[1] - old_point_coordinates[1];
-                //Console.WriteLine("{0},{1}", dx, dy);
-                
-                if (Math.Abs(dx) > 0.01)
-                {
-                    dx = dx * 10000;
-                } 
-                else if (Math.Abs(dx) > 0.00001) 
-                {
-                    dx = dx * 5000;
-                }
-                if (Math.Abs(dy) > 0.01)
-                {
-                    dy = dy * 10000;
-                }
-                else if (Math.Abs(dy) > 0.00001)
-                {
-                    dy = dy * 5000;
-                }
-                if (!clicked)
-                {
-                    SetCursorPos(mouse_pos.X + (int)(dx), mouse_pos.Y - (int)(dy));
-                }
-                Console.WriteLine("{0}, {1}", dx, dy);
+                SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
             }
-            old_point_coordinates = point_coordinates;
-
-            /// VERY simple click check.
 
             if (clicked)
             {
