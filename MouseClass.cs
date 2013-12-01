@@ -90,12 +90,15 @@ namespace Tutorial1
             pointVelocity[1] = dy / 10;
 
             //Uncomment to view process of moving mouse
-            //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", mouse_pos.X, mouse_pos.Y);
+            //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
+
+            //Don't move if the cursor is clicking currently. Done to make sure the cursor doesn't move in the process of clicking.
             if (!clicked)
             {
                 SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
             }
 
+            //If the Depth
             if (clicked)
             {
                 if (DateTime.Now - _LastClick > _ClickDelay)

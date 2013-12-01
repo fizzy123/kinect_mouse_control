@@ -115,17 +115,13 @@ namespace Tutorial1
                 {
                     depthFrame.CopyDepthImagePixelDataTo(this.depthPixels);
 
-                    // Get the min and max reliable depth for the current frame
                     int minDepth = depthFrame.MinDepth;
                     int maxDepth = depthFrame.MaxDepth;
                     int x = 0, y = 0;
                     int lowDepth = -1, area = 0;
-                    // Get the min and max reliable depth for the current frame
-                    int minDisplayDepth = depthFrame.MinDepth;
-                    int maxDisplayDepth = depthFrame.MaxDepth;
-
                     int lowestDepthX = 0, lowestDepthY = 0;
 
+                    // Detect point of lowest depth. It will be assume that this is the hand doing the clicking.
                     for (int i = 0; i < this.depthPixels.Length; ++i)
                     {
                         if ((lowDepth == -1) && (this.depthPixels[i].Depth != 0))
@@ -139,8 +135,8 @@ namespace Tutorial1
                             lowestDepthY = (i - x) / 640;
                         }
                     }
-                    //Console.WriteLine("{0} - {1}, {2}", lowDepth, lowestDepthX, lowestDepthY);
 
+                    // Loop through the pixels again to determine the area of the hand, as well as fill in the depth bitmap.
                     int colorPixelIndex = 0;
                     HashSet<int> heightSet = new HashSet<int>();
                     for (int i = 0; i < this.depthPixels.Length; ++i)
@@ -162,20 +158,22 @@ namespace Tutorial1
                             // Consider using a lookup table instead when writing production code.
                             // See the KinectDepthViewer class used by the KinectExplorer sample
                             // for a lookup table example.
-                            byte intensity = (byte)(depth >= minDisplayDepth && depth <= maxDisplayDepth ? depth : 0);
+                            byte intensity = (byte)(depth >= minDepth && depth <= maxDepth ? depth : 0);
 
-                            // Write out blue byte
                             if ((lowDepth + 100 > depthPixels[i].Depth) && (depthPixels[i].Depth != 0))
                             {
+                                //increment hand area
                                 area++;
                                 if ((i != 0) && (i != depthPixels.Length -1)) 
                                 {
                                     if ((lowDepth + 100 > depthPixels[i + 1].Depth) && (lowDepth + 100 > depthPixels[i - 1].Depth))
                                     {
+                                        //increment hand height.
                                         heightSet.Add(y);
                                     }
                                 }
-                                
+
+                                // Write out blue byte
                                 this.colorPixels[colorPixelIndex++] = 0;
                             }
                             else
@@ -189,13 +187,13 @@ namespace Tutorial1
                             // Write out red byte                        
                             this.colorPixels[colorPixelIndex++] = intensity;
 
-                            
-
                             // We're outputting BGR, the last byte in the 32 bits is unused so skip it
                             // If we were outputting BGRA, we would write alpha here.
                             ++colorPixelIndex;
                         }
                     }
+
+                    //Code to require a delay before registering a click.
                     if (clickSensitivity == 1)
                     {
                         clicked = true;
@@ -209,6 +207,7 @@ namespace Tutorial1
                     {
                         clickSensitivity = 0;
                         clicked = false;
+
                         //Average area and height
                         double areaAvg;
                         if (areaList.Count == 10)
@@ -238,10 +237,6 @@ namespace Tutorial1
                             heightList.Add(heightSet.Count());
                         }
                     }
-
-                    //Console.WriteLine("{0}:{1}, {2}:{3}", area, oldAreaAvg, heightSet.Count(), oldHeightAvg);
-                    //Console.WriteLine("{0}", clicked);
-                    
 
                     // Write the pixel data into our bitmap
                     this.colorBitmap.WritePixels(
