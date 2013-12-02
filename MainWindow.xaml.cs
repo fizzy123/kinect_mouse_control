@@ -91,7 +91,7 @@ namespace Tutorial1
 
                         foreach (SkeletonWorkerInterface _Worker in _Workers)
                         {
-                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked);
+                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked, lowestDepthPoint);
                         }
 
                     }
@@ -106,6 +106,8 @@ namespace Tutorial1
         List<int> heightList = new List<int>();
 
         int clickSensitivity = 0;
+
+        double[] lowestDepthPoint = new double[2];
 
         void _Runtime_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
         {
@@ -244,7 +246,9 @@ namespace Tutorial1
                         this.colorPixels,
                         this.colorBitmap.PixelWidth * sizeof(int),
                         0);
-                }
+                    lowestDepthPoint[0] = lowestDepthX;
+                    lowestDepthPoint[1] = lowestDepthY;
+                 }
             }
         }
 

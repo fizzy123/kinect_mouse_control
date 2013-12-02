@@ -14,7 +14,7 @@ namespace Tutorial1
 
         void Start(List<object> Params);
 
-        void DoWork(Skeleton Data, KinectSensor Kinect, List<object> Params, Boolean clicked);
+        void DoWork(Skeleton Data, KinectSensor Kinect, List<object> Params, Boolean clicked, double[] lowestDepthPoint);
 
     }
 }

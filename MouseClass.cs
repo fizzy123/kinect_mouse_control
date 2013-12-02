@@ -68,7 +68,7 @@ namespace Tutorial1
 
         Double[] pointVelocity = new Double[2] {0,0}
 ;
-        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked)
+        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, double[] lowestDepthPoint)
         {
 
             Joint _WorkingJoint;
@@ -98,13 +98,24 @@ namespace Tutorial1
                 SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
             }
 
-            //If the Depth
+            //Communicates the clicking event to the computer
             if (clicked)
             {
+                //Prevents rapidly re-clicking. Will want to change to implement drag and drop.
                 if (DateTime.Now - _LastClick > _ClickDelay)
                 {
-                    Click(mouse_pos.X, mouse_pos.Y, true);
+                    
                     _LastClick = DateTime.Now;
+                    if (mouse_pos.Y == 1079)
+                    {
+                        Console.WriteLine("Canceled");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Allowed");
+                        Click(mouse_pos.X, mouse_pos.Y, true);
+                    }
+                    //Console.WriteLine("{0},{1};{2},{3}", pointCoordinates[0] / 8, pointCoordinates[1] / 8, lowestDepthPoint[0] * 3, lowestDepthPoint[1] * 2.25);
                 }
             }
         }
