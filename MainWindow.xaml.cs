@@ -87,7 +87,7 @@ namespace Tutorial1
                         }
 
                         /// This occasionally throws a Generic GDI Error.. 
-                        SkeletonImage.Source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(MKinectDrawing.DrawSkeleton(320, 240, skeletonFrame, _CurrentColor).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        //SkeletonImage.Source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(MKinectDrawing.DrawSkeleton(320, 240, skeletonFrame, _CurrentColor).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
                         foreach (SkeletonWorkerInterface _Worker in _Workers)
                         {
@@ -239,10 +239,10 @@ namespace Tutorial1
                             heightList.Add(heightSet.Count());
                         }
                     }
-
+                    Int32Rect rectangle = new Int32Rect(0, 0, this.colorBitmap.PixelWidth, this.colorBitmap.PixelHeight);
                     // Write the pixel data into our bitmap
                     this.colorBitmap.WritePixels(
-                        new Int32Rect(0, 0, this.colorBitmap.PixelWidth, this.colorBitmap.PixelHeight),
+                        rectangle,
                         this.colorPixels,
                         this.colorBitmap.PixelWidth * sizeof(int),
                         0);
@@ -287,7 +287,7 @@ namespace Tutorial1
             this.colorBitmap = new WriteableBitmap(200, 200, 96.0, 96.0, PixelFormats.Bgr32, null);
 
             // Set the image we display to point to the bitmap where we'll put the image data
-            //this.DepthImage.Source = this.colorBitmap;
+            this.DepthImage.Source = this.colorBitmap;
 
             // Set Kinect to work in near mode
             _Runtime.DepthStream.Range = DepthRange.Near;

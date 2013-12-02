@@ -71,29 +71,30 @@ namespace Tutorial1
         public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, double[] lowestDepthPoint)
         {
 
-            Joint _WorkingJoint;
+            Joint _WorkingJoint, _ReferenceJoint;
             Point mouse_pos;
             Double dx, dy;
             GetCursorPos(out mouse_pos);
             _WorkingJoint = Data.Joints[JointType.HandRight];
+            _ReferenceJoint = Data.Joints[JointType.ShoulderCenter];
 
-            _WorkingJoint = _WorkingJoint.ScaleTo(15360, 8640); // Scale up because we don't want to have to move our hand across the full range of the kinect in order to go from one side of the screen to the other
-
+            //_WorkingJoint = _WorkingJoint.ScaleTo(15360, 8640); // Scale up because we don't want to have to move our hand across the full range of the kinect in order to go from one side of the screen to the other
+            
             Double[] pointCoordinates = ExponentialWeightedAvg(_WorkingJoint); // Smoothing function
 
             //Calculate difference between where mouse is and where hand is
-            dx = (pointCoordinates[0] - (15360 / 2 - 1920 / 2) - 600 - mouse_pos.X); 
-            dy = (pointCoordinates[1] - (8640 / 2 - 1080 / 2) - mouse_pos.Y);
-
+            dx = (1920 * 5 * pointCoordinates[0] - mouse_pos.X);
+            dy = (1080 * 5 * (-pointCoordinates[1]) - mouse_pos.Y);
+            
             //Set Velocity
             pointVelocity[0] = dx / 10;
             pointVelocity[1] = dy / 10;
 
             //Uncomment to view process of moving mouse
-            //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
+            Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
 
             //Don't move if the cursor is clicking currently. Done to make sure the cursor doesn't move in the process of clicking.
-            if (!clicked)
+            if (!clicked || (mouse_pos.Y == 1079))
             {
                 SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
             }
@@ -108,11 +109,11 @@ namespace Tutorial1
                     _LastClick = DateTime.Now;
                     if (mouse_pos.Y == 1079)
                     {
-                        Console.WriteLine("Canceled");
+                        //Console.WriteLine("Canceled");
                     }
                     else
                     {
-                        Console.WriteLine("Allowed");
+                        //Console.WriteLine("Allowed");
                         Click(mouse_pos.X, mouse_pos.Y, true);
                     }
                     //Console.WriteLine("{0},{1};{2},{3}", pointCoordinates[0] / 8, pointCoordinates[1] / 8, lowestDepthPoint[0] * 3, lowestDepthPoint[1] * 2.25);
