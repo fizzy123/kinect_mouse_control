@@ -14,4 +14,5 @@ running average, a click is reported to the system.
 
 TODO:
 Implement right-click
+Implement grabbing
 Modify so that drag-and-drop is possible. 
