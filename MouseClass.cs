@@ -37,17 +37,29 @@ namespace Tutorial1
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="Left"></param>
-        public void Click(int x, int y, bool Left)
+        public void Click(int x, int y, bool Left, bool Down)
         {
             if (Left)
             {
-                mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
-                mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+                if (Down)
+                {
+                    mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
+                }
+                else
+                {
+                    mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+                }
             }
             else
             {
-                mouse_event(MOUSEEVENTF_RIGHTDOWN, x, y, 0, 0);
-                mouse_event(MOUSEEVENTF_RIGHTUP, x, y, 0, 0);
+                if (Down)
+                {
+                    mouse_event(MOUSEEVENTF_RIGHTDOWN, x, y, 0, 0);
+                }
+                else
+                {
+                    mouse_event(MOUSEEVENTF_RIGHTUP, x, y, 0, 0);
+                }
             }
         }
 
@@ -68,7 +80,7 @@ namespace Tutorial1
 
         Double[] pointVelocity = new Double[2] {0,0}
 ;
-        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, double[] lowestDepthPoint)
+        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed, double[] lowestDepthPoint)
         {
 
             Joint _WorkingJoint, _ReferenceJoint;
@@ -91,13 +103,13 @@ namespace Tutorial1
             pointVelocity[1] = dy / 10;
 
             //Uncomment to view process of moving mouse
-            Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
+            //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
 
             //Don't move if the cursor is clicking currently. Done to make sure the cursor doesn't move in the process of clicking.
-            if (!clicked || (mouse_pos.Y == 1079))
-            {
+            //if (!clicked || (mouse_pos.Y == 1079))
+            //{
                 SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
-            }
+            //}
 
             //Communicates the clicking event to the computer
             if (clicked)
@@ -114,10 +126,24 @@ namespace Tutorial1
                     else
                     {
                         //Console.WriteLine("Allowed");
-                        Click(mouse_pos.X, mouse_pos.Y, true);
+                        Click(mouse_pos.X, mouse_pos.Y, true, true);
+                        Click(mouse_pos.X, mouse_pos.Y, true, false);
                     }
                     //Console.WriteLine("{0},{1};{2},{3}", pointCoordinates[0] / 8, pointCoordinates[1] / 8, lowestDepthPoint[0] * 3, lowestDepthPoint[1] * 2.25);
                 }
+            }
+            else 
+            {
+                if ((grabbed) && (mouse_pos.Y != 1079))
+                {
+                    Click(mouse_pos.X, mouse_pos.Y, true, true);
+                }
+                //
+            }
+            
+            if (!grabbed) 
+            {
+                Click(mouse_pos.X, mouse_pos.Y, true, false);
             }
         }
 

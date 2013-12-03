@@ -51,6 +51,7 @@ namespace Tutorial1
         private Skeleton FirstSkeleton;
 
         private Boolean clicked = false;
+        private Boolean grabbed = false;
         public MainWindow()
         {
             InitializeComponent();         
@@ -91,7 +92,7 @@ namespace Tutorial1
 
                         foreach (SkeletonWorkerInterface _Worker in _Workers)
                         {
-                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked, lowestDepthPoint);
+                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked, grabbed, lowestDepthPoint);
                         }
 
                     }
@@ -105,7 +106,8 @@ namespace Tutorial1
         double oldHeightAvg = 0;
         List<int> heightList = new List<int>();
 
-        int clickSensitivity = 0;
+        int clickCount = 0;
+        int grabCount = 0;
 
         double[] lowestDepthPoint = new double[2];
 
@@ -122,6 +124,7 @@ namespace Tutorial1
                     int x = 0, y = 0;
                     int lowDepth = -1, area = 0;
                     int lowestDepthX = 0, lowestDepthY = 0;
+                    Boolean fingers;
 
                     // Detect point of lowest depth. It will be assume that this is the hand doing the clicking.
                     for (int i = 0; i < this.depthPixels.Length; ++i)
@@ -141,6 +144,11 @@ namespace Tutorial1
                     // Loop through the pixels again to determine the area of the hand, as well as fill in the depth bitmap.
                     int colorPixelIndex = 0;
                     HashSet<int> heightSet = new HashSet<int>();
+                    HashSet<int> widthSet = new HashSet<int>();
+
+                    int fingerCount = 0;
+                    int minY = 0;
+                    int lastX = 0;
                     for (int i = 0; i < this.depthPixels.Length; ++i)
                     {
                         x = i % 640;
@@ -166,17 +174,31 @@ namespace Tutorial1
                             {
                                 //increment hand area
                                 area++;
-                                if ((i != 0) && (i != depthPixels.Length -1)) 
-                                {
-                                    if ((lowDepth + 100 > depthPixels[i + 1].Depth) && (lowDepth + 100 > depthPixels[i - 1].Depth))
-                                    {
-                                        //increment hand height.
-                                        heightSet.Add(y);
-                                    }
-                                }
+
+                                //increment hand height.
+                                heightSet.Add(y);
+                                widthSet.Add(x);
 
                                 // Write out blue byte
                                 this.colorPixels[colorPixelIndex++] = 0;
+                                
+                                //Finger Count
+                                if (minY == 0)
+                                {
+                                    minY = y;
+                                }
+
+                                if (y == minY + 10)
+                                {
+                                    if (lastX != 0)
+                                    {
+                                        if (lastX != x-1)
+                                        {
+                                            fingerCount++;
+                                        }
+                                    }
+                                    lastX = x;
+                                }
                             }
                             else
                             {
@@ -196,18 +218,18 @@ namespace Tutorial1
                     }
 
                     //Code to require a delay before registering a click.
-                    if (clickSensitivity == 1)
+                    if (clickCount == 2)
                     {
                         clicked = true;
-                        clickSensitivity = 0;
+                        clickCount = 0;
                     }
-                    else if (((oldAreaAvg + 1000 < area) || (oldAreaAvg - 1000 > area)) && (oldHeightAvg + 50 < heightSet.Count()) || (oldHeightAvg - 50 > heightSet.Count())) 
+                    else if ((!grabbed) && (oldAreaAvg - 1000 > area) && (oldHeightAvg + 50 < heightSet.Count()) || (oldHeightAvg - 50 > heightSet.Count())) 
                     {
-                        clickSensitivity++;
+                        clickCount++;
                     }
                     else
                     {
-                        clickSensitivity = 0;
+                        clickCount = 0;
                         clicked = false;
 
                         //Average area and height
@@ -239,6 +261,35 @@ namespace Tutorial1
                             heightList.Add(heightSet.Count());
                         }
                     }
+
+                    if ((!clicked) && (Math.Abs(heightSet.Count() - widthSet.Count() + 5) < 15) && (fingerCount < 2) && (grabCount != 5))
+                    {
+                        grabCount++;
+                    }
+                    else if (grabCount != 0)
+                    {
+                        grabCount--;
+                    }
+
+                    if ((grabbed) && (grabCount == 0))
+                    {
+                        grabbed = false;
+                    }
+                    if ((!grabbed) && (grabCount == 5))
+                    {
+                        grabbed = true;
+                    }
+
+                    Console.WriteLine("{0}, {1} : {2} - {3}", heightSet.Count(), widthSet.Count(), grabbed, clicked);
+
+                    //if (grabbed)
+                    //{
+                    //    Console.WriteLine("Positive");
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine("Negative");
+                    //}
                     Int32Rect rectangle = new Int32Rect(0, 0, this.colorBitmap.PixelWidth, this.colorBitmap.PixelHeight);
                     // Write the pixel data into our bitmap
                     this.colorBitmap.WritePixels(

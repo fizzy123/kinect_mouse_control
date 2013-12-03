@@ -17,3 +17,4 @@ Implement right-click.
 Implement grabbing.  
 Modify so that drag-and-drop is possible.  
 Experiment with delta based movement.  
+Correct skeleton sensing.  
