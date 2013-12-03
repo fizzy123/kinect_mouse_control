@@ -262,7 +262,7 @@ namespace Tutorial1
                         }
                     }
 
-                    if ((!clicked) && (Math.Abs(heightSet.Count() - widthSet.Count() + 5) < 15) && (fingerCount < 2) && (grabCount != 5))
+                    if ((!clicked) && (Math.Abs(heightSet.Count() - widthSet.Count() + 5) < 15) && (fingerCount < 1) && (grabCount != 5))
                     {
                         grabCount++;
                     }
@@ -280,7 +280,7 @@ namespace Tutorial1
                         grabbed = true;
                     }
 
-                    Console.WriteLine("{0}, {1} : {2} - {3}", heightSet.Count(), widthSet.Count(), grabbed, clicked);
+                    //Console.WriteLine("{0}, {1} : {2} - {3}", heightSet.Count(), widthSet.Count(), grabbed, clicked);
 
                     //if (grabbed)
                     //{

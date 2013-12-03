@@ -78,8 +78,10 @@ namespace Tutorial1
             }
         }
 
-        Double[] pointVelocity = new Double[2] {0,0}
-;
+        Double[] pointVelocity = new Double[2] {0,0};
+
+        Boolean extendedClick = false;
+        Boolean currentlyGrabbing = false;
         public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed, double[] lowestDepthPoint)
         {
 
@@ -106,44 +108,51 @@ namespace Tutorial1
             //Console.WriteLine("{0}, {1}, {2}; {3}, {4}, {5}", pointCoordinates[0], mouse_pos.X, dx, pointCoordinates[1], mouse_pos.Y, dy);
 
             //Don't move if the cursor is clicking currently. Done to make sure the cursor doesn't move in the process of clicking.
-            //if (!clicked || (mouse_pos.Y == 1079))
-            //{
+            if (!extendedClick)
+            {
                 SetCursorPos(mouse_pos.X + (int)(pointVelocity[0]), mouse_pos.Y + (int)(pointVelocity[1]));
-            //}
+            }
 
             //Communicates the clicking event to the computer
-            if (clicked)
+            if ((clicked) && (mouse_pos.Y != 1079))
             {
                 //Prevents rapidly re-clicking. Will want to change to implement drag and drop.
                 if (DateTime.Now - _LastClick > _ClickDelay)
                 {
-                    
+
                     _LastClick = DateTime.Now;
-                    if (mouse_pos.Y == 1079)
+                    if (extendedClick)
                     {
-                        //Console.WriteLine("Canceled");
+                        Console.WriteLine("Clicked, Right Click");
+                        Click(mouse_pos.X, mouse_pos.Y, false, true);
+                        Click(mouse_pos.X, mouse_pos.Y, false, false);
+                        extendedClick = false;
                     }
                     else
                     {
-                        //Console.WriteLine("Allowed");
+                        Console.WriteLine("Clicked");
                         Click(mouse_pos.X, mouse_pos.Y, true, true);
                         Click(mouse_pos.X, mouse_pos.Y, true, false);
+                        extendedClick = true;
                     }
                     //Console.WriteLine("{0},{1};{2},{3}", pointCoordinates[0] / 8, pointCoordinates[1] / 8, lowestDepthPoint[0] * 3, lowestDepthPoint[1] * 2.25);
                 }
             }
             else 
             {
+                extendedClick = false;
                 if ((grabbed) && (mouse_pos.Y != 1079))
                 {
                     Click(mouse_pos.X, mouse_pos.Y, true, true);
+                    Console.WriteLine("Grabbed");
+                    currentlyGrabbing = true;
                 }
-                //
-            }
-            
-            if (!grabbed) 
-            {
-                Click(mouse_pos.X, mouse_pos.Y, true, false);
+                if ((!grabbed) && (currentlyGrabbing))
+                {
+                    Console.WriteLine("UnGrabbed");
+                    Click(mouse_pos.X, mouse_pos.Y, true, false);
+                    currentlyGrabbing = false;
+                }
             }
         }
 
