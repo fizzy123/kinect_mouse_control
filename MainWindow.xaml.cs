@@ -65,15 +65,16 @@ namespace Tutorial1
             {
                 if (skeletonFrame != null)
                 {
+                    float closestDistance = 10000f;
                     int SkeletonCount = skeletonFrame.SkeletonArrayLength;
                     Skeleton[] skeletonData = new Skeleton[SkeletonCount];
                     skeletonFrame.CopySkeletonDataTo(skeletonData);
-                    foreach (var SData in skeletonData)
+                    foreach (Skeleton skeleton in skeletonData.Where(s => s.TrackingState != SkeletonTrackingState.NotTracked))
                     {
-                        if (SData.TrackingState == SkeletonTrackingState.Tracked)
+                        if (skeleton.Position.Z < closestDistance)
                         {
-                            FirstSkeleton = SData;
-                            break;
+                        FirstSkeleton = skeleton;
+                        closestDistance = skeleton.Position.Z;
                         }
                     }
 
