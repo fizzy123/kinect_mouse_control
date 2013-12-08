@@ -41,11 +41,6 @@ namespace Tutorial1
         /// <summary>
         /// Intermediate storage for the depth data converted to color
         /// </summary>
-        private List<short> depthSquare;
-
-        /// <summary>
-        /// Intermediate storage for the depth data converted to color
-        /// </summary>
         private byte[] colorPixels;
 
         private Skeleton FirstSkeleton;
@@ -65,7 +60,8 @@ namespace Tutorial1
             {
                 if (skeletonFrame != null)
                 {
-                    float closestDistance = 10000f;
+                    // Grabs data for closest skeleton and only the closest skeleton.
+                    float closestDistance = 10000f; // Start with a far enough distance
                     int SkeletonCount = skeletonFrame.SkeletonArrayLength;
                     Skeleton[] skeletonData = new Skeleton[SkeletonCount];
                     skeletonFrame.CopySkeletonDataTo(skeletonData);
@@ -89,11 +85,12 @@ namespace Tutorial1
                         }
 
                         /// This occasionally throws a Generic GDI Error.. 
+                        /// Uncomment to view skeleton in testing
                         //SkeletonImage.Source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(MKinectDrawing.DrawSkeleton(320, 240, skeletonFrame, _CurrentColor).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
                         foreach (SkeletonWorkerInterface _Worker in _Workers)
                         {
-                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked, grabbed, lowestDepthPoint);
+                            _Worker.DoWork(FirstSkeleton, _Runtime, null, clicked, grabbed);
                         }
 
                     }
@@ -125,11 +122,11 @@ namespace Tutorial1
                     int x = 0, y = 0;
                     int lowDepth = -1, area = 0;
                     int lowestDepthX = 0, lowestDepthY = 0;
-                    Boolean fingers;
 
-                    // Detect point of lowest depth. It will be assume that this is the hand doing the clicking.
+                    // Detect point of lowest depth. It will be assumed that this is the hand doing the clicking.
                     for (int i = 0; i < this.depthPixels.Length; ++i)
                     {
+                        //A lot of the depth values will return 0 for some reason. We need to filter them out so that they don't get set as the lowest depth pixel
                         if ((lowDepth == -1) && (this.depthPixels[i].Depth != 0))
                         {
                             lowDepth = this.depthPixels[i].Depth;
@@ -142,7 +139,7 @@ namespace Tutorial1
                         }
                     }
 
-                    // Loop through the pixels again to determine the area of the hand, as well as fill in the depth bitmap.
+                    // Loop through the pixels again to determine the area of the hand, as well as fill in the depth bitmap and count fingers.
                     int colorPixelIndex = 0;
                     HashSet<int> heightSet = new HashSet<int>();
                     HashSet<int> widthSet = new HashSet<int>();
@@ -154,6 +151,7 @@ namespace Tutorial1
                     {
                         x = i % 640;
                         y = (i - x) / 640;
+                        //If pixel is in square surrounding point of lowest depth.
                         if ((lowestDepthY < (y + 50)) && (lowestDepthY >= (y - 150)) && (lowestDepthX < (x + 100)) && (lowestDepthX >= (x - 100)))
                         {
                             
@@ -171,19 +169,21 @@ namespace Tutorial1
                             // for a lookup table example.
                             byte intensity = (byte)(depth >= minDepth && depth <= maxDepth ? depth : 0);
 
+                            //If pixel is in hand area
                             if ((lowDepth + 100 > depthPixels[i].Depth) && (depthPixels[i].Depth != 0))
                             {
                                 //increment hand area
                                 area++;
 
-                                //increment hand height.
+                                //increment hand height and width.
                                 heightSet.Add(y);
                                 widthSet.Add(x);
 
                                 // Write out blue byte
+                                // Done to identify what pixels the program is detecting as the hand
                                 this.colorPixels[colorPixelIndex++] = 0;
                                 
-                                //Finger Count
+                                //Finger Count. Finds highest pixel in hand, goes 10 pixels below that and counts how many gaps are in that horizontal line.
                                 if (minY == 0)
                                 {
                                     minY = y;
@@ -224,6 +224,8 @@ namespace Tutorial1
                         clicked = true;
                         clickCount = 0;
                     }
+                    // Click is determined by comparing average area and height to current area and height. 
+                    // If area and height are much less than normal, a click is registered.
                     else if ((!grabbed) && (oldAreaAvg - 1000 > area) && (oldHeightAvg + 50 < heightSet.Count()) || (oldHeightAvg - 50 > heightSet.Count())) 
                     {
                         clickCount++;
@@ -263,6 +265,12 @@ namespace Tutorial1
                         }
                     }
 
+                    // Code for grabbing
+                    // First, check to see that difference in width and height is small, that finger count is 0, and that the grab counter isn't at max
+                    // This code is different from the clicking counter since you have to cross a certain threshold before the state of whether or not you're grabbing changes
+                    // Also, the width and height difference is offset a little bit since fists are naturally wider than they are tall.
+                    // This code also often picks up the top of your wrist. If you find it's a bit buggy, that's probably what it is. For
+                    // maximum accuracy, hold your fist at the kinect.
                     if ((!clicked) && (Math.Abs(heightSet.Count() - widthSet.Count() + 5) < 15) && (fingerCount < 1) && (grabCount != 5))
                     {
                         grabCount++;
@@ -283,14 +291,6 @@ namespace Tutorial1
 
                     //Console.WriteLine("{0}, {1} : {2} - {3}", heightSet.Count(), widthSet.Count(), grabbed, clicked);
 
-                    //if (grabbed)
-                    //{
-                    //    Console.WriteLine("Positive");
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine("Negative");
-                    //}
                     Int32Rect rectangle = new Int32Rect(0, 0, this.colorBitmap.PixelWidth, this.colorBitmap.PixelHeight);
                     // Write the pixel data into our bitmap
                     this.colorBitmap.WritePixels(
@@ -298,15 +298,8 @@ namespace Tutorial1
                         this.colorPixels,
                         this.colorBitmap.PixelWidth * sizeof(int),
                         0);
-                    lowestDepthPoint[0] = lowestDepthX;
-                    lowestDepthPoint[1] = lowestDepthY;
                  }
             }
-        }
-
-        void _Runtime_VideoFrameReady(object sender, ColorImageFrameReadyEventArgs e)
-        {
-         //   VideoStreamImage.Source = e.ImageFrame.ToBitmapSource();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -348,7 +341,6 @@ namespace Tutorial1
             this.depthPixels = new DepthImagePixel[this._Runtime.DepthStream.FramePixelDataLength];
 
             /// Initialize with Color and Depth and SkeletalTracking
-            _Runtime.ColorStream.Enable();
             _Runtime.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
             _Runtime.SkeletonStream.Enable();
             _Runtime.Start();
@@ -366,7 +358,6 @@ namespace Tutorial1
             _Runtime.SkeletonStream.Enable(_TransformSmooth);
 
             /// Add Event Handlers For Video and Depth
-            _Runtime.ColorFrameReady += new EventHandler<ColorImageFrameReadyEventArgs>(_Runtime_VideoFrameReady);
             _Runtime.DepthFrameReady += new EventHandler<DepthImageFrameReadyEventArgs>(_Runtime_DepthFrameReady);
 
             /// Add Event Handler For Skeleton Data
@@ -375,21 +366,6 @@ namespace Tutorial1
             #region Add Mouse Support
 
             MouseClass _MClass = new MouseClass();
-
-            List<object> _MouseParams = new List<object>();
-            
-            // Assume Righty
-            _MouseParams.Add(true);
-            System.Drawing.Rectangle _R = new System.Drawing.Rectangle();
-           
-            _R.Width = 1920;
-            _R.Height = 1080;
-            _R.X = 0;
-            _R.Y = 0;
-            
-            _MouseParams.Add(_R);
-
-            _MClass.Start(_MouseParams);
 
             _Workers.Add(_MClass);
 
@@ -400,21 +376,6 @@ namespace Tutorial1
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Works");
-        }
-
-        private void SetRedButton_Click(object sender, RoutedEventArgs e)
-        {
-            _CurrentColor = System.Drawing.Color.Red;
-        }
-
-        private void SetGreenButton_Click(object sender, RoutedEventArgs e)
-        {
-            _CurrentColor = System.Drawing.Color.Green;
-        }
-
-        private void SetBlueButton_Click(object sender, RoutedEventArgs e)
-        {
-            _CurrentColor = System.Drawing.Color.Blue;
         }
 
     }

@@ -63,26 +63,14 @@ namespace Tutorial1
             }
         }
 
-        internal Rectangle _Bounds;
         internal TimeSpan _ClickDelay = new TimeSpan(0, 0, 1);
         internal DateTime _LastClick = DateTime.Now;
-
-        public void Start(List<object> Params)
-        {
-            if (Params.Count > 0)
-            {
-                if (Params[1] is Rectangle)
-                {
-                    _Bounds = (Rectangle)Params[1];
-                }
-            }
-        }
 
         Double[] pointVelocity = new Double[2] {0,0};
 
         Boolean extendedClick = false;
         Boolean currentlyGrabbing = false;
-        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed, double[] lowestDepthPoint)
+        public void DoWork(Microsoft.Kinect.Skeleton Data, Microsoft.Kinect.KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed)
         {
 
             Joint _WorkingJoint, _ReferenceJoint;
@@ -92,11 +80,10 @@ namespace Tutorial1
             _WorkingJoint = Data.Joints[JointType.HandRight];
             _ReferenceJoint = Data.Joints[JointType.ShoulderCenter];
 
-            //_WorkingJoint = _WorkingJoint.ScaleTo(15360, 8640); // Scale up because we don't want to have to move our hand across the full range of the kinect in order to go from one side of the screen to the other
-            
             Double[] pointCoordinates = ExponentialWeightedAvg(_WorkingJoint); // Smoothing function
 
             //Calculate difference between where mouse is and where hand is
+            // Scale up because we don't want to have to move our hand across the full range of the kinect in order to go from one side of the screen to the other
             dx = (1920 * 5 * pointCoordinates[0] - mouse_pos.X);
             dy = (1080 * 5 * (-pointCoordinates[1]) - mouse_pos.Y);
             
@@ -116,7 +103,7 @@ namespace Tutorial1
             //Communicates the clicking event to the computer
             if ((clicked) && (mouse_pos.Y != 1079))
             {
-                //Prevents rapidly re-clicking. Will want to change to implement drag and drop.
+                //Prevents rapidly re-clicking. 
                 if (DateTime.Now - _LastClick > _ClickDelay)
                 {
 
@@ -135,7 +122,6 @@ namespace Tutorial1
                         Click(mouse_pos.X, mouse_pos.Y, true, false);
                         extendedClick = true;
                     }
-                    //Console.WriteLine("{0},{1};{2},{3}", pointCoordinates[0] / 8, pointCoordinates[1] / 8, lowestDepthPoint[0] * 3, lowestDepthPoint[1] * 2.25);
                 }
             }
             else 

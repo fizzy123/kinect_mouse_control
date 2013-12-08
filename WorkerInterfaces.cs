@@ -12,9 +12,7 @@ namespace Tutorial1
     public interface SkeletonWorkerInterface
     {
 
-        void Start(List<object> Params);
-
-        void DoWork(Skeleton Data, KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed, double[] lowestDepthPoint);
+        void DoWork(Skeleton Data, KinectSensor Kinect, List<object> Params, Boolean clicked, Boolean grabbed);
 
     }
 }

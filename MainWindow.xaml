@@ -8,9 +8,6 @@
             <!--Image Height="488" HorizontalAlignment="Left" Margin="132,62,0,0" Name="SkeletonImage" Stretch="Fill" VerticalAlignment="Top" Width="488" /-->
             <Button Content="Start Kinect" Height="23" HorizontalAlignment="Left" Margin="6,6,0,0" Name="StartKinect" VerticalAlignment="Top" Width="75" Click="StartKinect_Click" />
             <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="51,62,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
-            <Button Content="Set Red" Height="23" HorizontalAlignment="Left" Margin="12,141,0,0" Name="SetRedButton" VerticalAlignment="Top" Width="75" Background="Red" Click="SetRedButton_Click" />
-            <Button Content="Set Green" Height="23" HorizontalAlignment="Left" Margin="12,170,0,0" Name="SetGreenButton" VerticalAlignment="Top" Width="75" Background="Lime" Click="SetGreenButton_Click" />
-            <Button Content="Set Blue" Height="23" HorizontalAlignment="Left" Margin="12,199,0,0" Name="SetBlueButton" VerticalAlignment="Top" Width="75" Background="Blue" Click="SetBlueButton_Click" />
         </Grid>
     </Grid>
 </Window>
