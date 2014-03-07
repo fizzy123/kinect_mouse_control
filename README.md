@@ -12,9 +12,8 @@ The clicking is managed by tracking the "area" of the hand. This area is defined
 the lowest depth. We take the total area and the delta-y of the area and if both of these are significantly less than the
 running average, a click is reported to the system. 
 
-TODO:
-Implement right-click.  
-Implement grabbing.  
-Modify so that drag-and-drop is possible.  
-Experiment with delta based movement.  
-Correct skeleton sensing.  
+FEATURES:
+
+Left-click
+Right-click  
+Grabbing (Drag and drop)  
