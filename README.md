@@ -1,6 +1,8 @@
 kinect_mouse_control
 ====================
 
+https://www.youtube.com/watch?v=D_6ha00_lbM&list=UUB1620vx3tyS5H7RD-_nybg
+
 This application allows you to control your mouse with your hand. So far, all it does is click and move. 
 
 The movement is managed by taking the coordinate of the right hand joint, mapping that coordinate to a point on the 
